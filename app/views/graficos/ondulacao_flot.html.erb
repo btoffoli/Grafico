@@ -1,0 +1,9 @@
+<h1>Graficos#grafico1</h1>
+<script type="text/javascript"> 
+  var grafico = <%= @dados.to_json.html_safe %>
+  $(function () {
+      $('#chart').css({width: $(window).width()-50, height: '300px'})
+      $.plot($('#chart'), [grafico])
+  });
+</script>
+<div id="chart"></div>
