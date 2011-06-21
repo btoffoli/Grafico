@@ -8,6 +8,10 @@ Chart::Application.routes.draw do
   get "graficos/ondulacao_gruff"
   
   get "graficos/ondulacao_flot"
+  
+  get "graficos/ondulacao_flot_files"
+  
+  get "graficos/ondulacao_flot_dynamic"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -40,10 +40,8 @@ class GraficosController < ApplicationController
     _indice = 0
     #dados = File.open('tmp/Teste_Mare_04_May_2011.wvr')
     #dados.each do |linha|
-    ftp = Net::FTP.new('ambidados.com.br')
-    ftp.passive = true
-    ftp.login 'ambidados', 'ambi0011dados@'
-    ftp.gettextfile('Dados/RF/Dados/Teste_Mare_04_May_2011.wvr') do |linha|
+    open_ftp_connection
+    @ftp.gettextfile('Dados/RF/Dados/Teste_Mare_04_May_2011.wvr') do |linha|
       _dados = linha.split ' '
       #puts _dados[4]
       #puts _dados[5]
@@ -52,12 +50,27 @@ class GraficosController < ApplicationController
     end
     puts @mares
     @dados = {data: @mares, label: 'lalala'}
-    ftp.close
+  end
+  
+  def ondulacao_flot_dynamic
+  end
+  
+  #TODO FAZER INSERCAO DO JS NO CABEÇALHO
+  def ondulacao_flot_files
+    open_ftp_connection
+    _files = @ftp.dir('Dados/RF/Dados/').collect{|linha| linha.split(' ')[8]}.find_all{|el| el =~ /^[0-9a-zA-Z_]+[\.][0-9a-zA-Z_]{3}/}
+    render json: _files
   end
 
-  def ondulacao_flot_ajax
-    #ondulacao_flot
-    
-  end
+  private
 
+  def open_ftp_connection
+    @ftp = Net::FTP.new('ambidados.com.br')
+    @ftp.passive = true
+    @ftp.login 'ambidados', 'ambi0011dados@'
+
+  end
+  def close_ftp_connection
+    @ftp.close
+  end
 end
