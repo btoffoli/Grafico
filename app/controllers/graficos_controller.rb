@@ -41,7 +41,7 @@ class GraficosController < ApplicationController
     #dados = File.open('tmp/Teste_Mare_04_May_2011.wvr')
     #dados.each do |linha|
     open_ftp_connection
-    @ftp.gettextfile('Dados/RF/Dados/Teste_Mare_04_May_2011.wvr', nil) do |linha|
+    @@ftp.gettextfile('Dados/RF/Dados/Teste_Mare_04_May_2011.wvr', nil) do |linha|
       _dados = linha.split ' '
       #puts _dados[4]
       #puts _dados[5]
@@ -58,19 +58,21 @@ class GraficosController < ApplicationController
   #TODO FAZER INSERCAO DO JS NO CABEÇALHO
   def ondulacao_flot_files
     open_ftp_connection
-    _files = @ftp.dir('Dados/RF/Dados/').collect{|linha| linha.split(' ')[8]}.find_all{|el| el =~ /^[0-9a-zA-Z_]+[\.][0-9a-zA-Z_]{3}/}
+    _files = @@ftp.dir('Dados/RF/Dados/').collect{|linha| linha.split(' ')[8]}.find_all{|el| el =~ /^[0-9a-zA-Z_]+[\.][0-9a-zA-Z_]{3}/}
     render json: _files
   end
 
   private
 
+  @@ftp = nil
   def open_ftp_connection
-    @ftp = Net::FTP.new('ambidados.com.br')
-    @ftp.passive = true
-    @ftp.login 'ambidados', 'ambi0011dados@'
+    return if @@ftp && !@@ftp.closed?
+    @@ftp = Net::FTP.new('ambidados.com.br')
+    @@ftp.passive = true
+    @@ftp.login('ambidados', 'ambi0011dados@')
 
   end
   def close_ftp_connection
-    @ftp.close
+    @@ftp.close
   end
 end
