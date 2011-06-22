@@ -41,7 +41,7 @@ class GraficosController < ApplicationController
     #dados = File.open('tmp/Teste_Mare_04_May_2011.wvr')
     #dados.each do |linha|
     open_ftp_connection
-    @ftp.gettextfile('Dados/RF/Dados/Teste_Mare_04_May_2011.wvr') do |linha|
+    @ftp.gettextfile('Dados/RF/Dados/Teste_Mare_04_May_2011.wvr', nil) do |linha|
       _dados = linha.split ' '
       #puts _dados[4]
       #puts _dados[5]
