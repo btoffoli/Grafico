@@ -49,7 +49,7 @@ class GraficosController < ApplicationController
       _indice += 1
     end
     puts @mares
-    @dados = {data: @mares, label: 'lalala'}
+    @dados = {data: @mares, label: 'Teste_Mare_04_May_2011.wvr'}
   end
   
   def ondulacao_flot_dynamic
