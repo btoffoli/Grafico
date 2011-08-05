@@ -5,7 +5,7 @@
 <%- end -%>
 <script type="text/javascript"> 
   var grafico = <%= @dados.to_json.html_safe %>
-  var url_arquivos = "<%= url_for action: 'ondulacao_flot_files', controller: 'graficos'%>"
+  var url_arquivos = "<%= url_for :action => 'ondulacao_flot_files', :controller => 'graficos'%>"
   $(function () {
       $('#chart').css({width: $(window).width()-50, height: '300px'})
       $.plot($('#chart'), [grafico])

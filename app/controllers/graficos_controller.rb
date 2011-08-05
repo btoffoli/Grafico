@@ -41,7 +41,7 @@ class GraficosController < ApplicationController
     #dados = File.open('tmp/Teste_Mare_04_May_2011.wvr')
     #dados.each do |linha|
     open_ftp_connection
-    @@ftp.gettextfile('Dados/RF/Dados/Teste_Mare_04_May_2011.wvr', nil) do |linha|
+    @@ftp.gettextfile('Dados/RF/Dados/Teste_Mare_04_May_2011.wvr', File.basename('tmp/teste.txt')) do |linha|
       _dados = linha.split ' '
       #puts _dados[4]
       #puts _dados[5]
@@ -49,7 +49,7 @@ class GraficosController < ApplicationController
       _indice += 1
     end
     puts @mares
-    @dados = {data: @mares, label: 'Teste_Mare_04_May_2011.wvr'}
+    @dados = {:data => @mares, :label => 'Teste_Mare_04_May_2011.wvr'}
   end
   
   def ondulacao_flot_dynamic
@@ -59,7 +59,7 @@ class GraficosController < ApplicationController
   def ondulacao_flot_files
     open_ftp_connection
     _files = @@ftp.dir('Dados/RF/Dados/').collect{|linha| linha.split(' ')[8]}.find_all{|el| el =~ /^[0-9a-zA-Z_]+[\.][0-9a-zA-Z_]{3}/}
-    render json: _files
+    render :json => _files
   end
 
   private
